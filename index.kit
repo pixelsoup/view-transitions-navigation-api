@@ -1,0 +1,43 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>View Transitions Experiment</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/production.css">
+  </head>
+  <body>
+    <main class="main">
+      <div class="container">
+
+        <h1>Hello, Navigation API &amp; <code>info</code>!</h1>
+        <p>
+          If the <a href="https://github.com/WICG/navigation-api" target="_blank">Navigation API</a> is supported, this will show a different animation depending on the button pressed.
+          This is passed via the <code>info</code> property in the options passed to <code>navigation.navigate()</code>.
+        </p>
+        <p id="hint" hidden="" style="color: red">
+          The Navigation API is <strong>not</strong> available :(
+        </p>
+        <hr>
+        <p class="instructionsText">
+          Press a button to show the image, or <em>Home</em> to hide it.
+        </p>
+
+        <div class="btnsWrapper">
+          <button id="left">
+            From Left
+          </button>
+          <a href="#">Home</a>
+          <button id="right">
+            From Right
+          </button>
+        </div>
+
+        <img id="image" src="https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2Fillustration.svg?v=1618177344016" width="256" height="256" hidden="">
+
+      </div>
+    </main>
+    <script src="./js/development.js"></script>
+  </body>
+</html>

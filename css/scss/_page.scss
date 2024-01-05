@@ -1,0 +1,32 @@
+.instructionsText {
+  text-align: center
+}
+
+.btnsWrapper {
+  display: flex;
+  justify-content: space-between
+}
+
+#image {
+  margin: 0 auto;
+  display: block;
+  transition: transform .5s ease-in-out;
+}
+
+#image[hidden] {
+  opacity: 0.1;
+}
+
+pre,
+code,
+kbd,
+samp,
+tt {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+p {
+  font-size: 14px;
+  line-height: 20px;
+}
