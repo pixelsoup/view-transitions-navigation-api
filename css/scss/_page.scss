@@ -2,31 +2,17 @@
   text-align: center
 }
 
-.btnsWrapper {
+.navBtnsWrapper {
   display: flex;
   justify-content: space-between
 }
 
-#image {
+.imageDemo {
   margin: 0 auto;
   display: block;
   transition: transform .5s ease-in-out;
 }
 
-#image[hidden] {
+.imageDemo[hidden] {
   opacity: 0.1;
-}
-
-pre,
-code,
-kbd,
-samp,
-tt {
-  font-family: monospace, monospace;
-  font-size: 1em;
-}
-
-p {
-  font-size: 14px;
-  line-height: 20px;
 }
