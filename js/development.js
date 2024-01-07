@@ -1,11 +1,11 @@
 
-const left = document.getElementById('js-navBtnLeft')
-const right = document.getElementById('js-navBtnRight')
-const image = document.getElementById('js-imageDemo')
+const btnLeft = document.getElementById('js-navBtnLeft')
+const btnRight = document.getElementById('js-navBtnRight')
+const targetImage = document.getElementById('js-imageDemo')
 
 function setupInitialPage() {
   const showImage = (window.location.hash === '#js-imageDemo')
-  image.hidden = !showImage
+  targetImage.hidden = !showImage
 }
 
 setupInitialPage()
@@ -21,54 +21,59 @@ if (window.navigation) {
     }
   }
 
-  window.navigation.addEventListener('navigate', (e) => {
+  window.navigation.addEventListener('navigate', (event) => {
 
-    const u = new URL(e.destination.url)
-    //console.info('info---------(e)',e)
+    const u = new URL(event.destination.url)
+    //console.info('info---------(event)',event)
     // console.info('u.hash?',u.hash)
 
-    if (!e.canTransition || u.pathname !== '/') {
+    if (!event.canTransition || u.pathname !== '/') {
       return
     }
 
     if (u.hash === '#js-imageDemo') {
       // We can handle this one. If 'info' is unspecified, it might be because
       // this is a URL navigation, or Back and Forward was pressed.
-      // console.info('got side request', e.info?.side)
-      // console.info('e.info', e.info)
+      // console.info('got side request', event.info?.side)
+      // console.info('event.info', event.info)
 
-      image.hidden = false
+      targetImage.hidden = false
 
-      if (e.info?.side) {
-        e.intercept({
+      if (event.info?.side) {
+        event.intercept({
           focusReset: 'manual',
           scroll: 'manual',
           async handler() {
-            const dir = (e.info.side === 'left' ? -1 : +1)
-            image.style.transition = 'none'
-            image.style.transform = `translateX(${dir * 80}vw)`
-            image.offsetLeft  // force layout
+
+
+            const transformDirection = (event.info.side === 'left' ? -1 : +1)
+
+            targetImage.style.transition = 'none'
+            // if left then translateX(-80vw)
+            // if right then translateX(80vw)
+            targetImage.style.transform = `translateX(${transformDirection * 80}vw)`
+            targetImage.offsetLeft  // force layout
 
             const p = new Promise((r) => {
-              image.addEventListener('transitionend', () => r(true))
+              targetImage.addEventListener('transitionend', () => r(true))
             })
             const abort = new Promise((_, reject) => {
-              e.signal.addEventListener('abort', () => reject(new Error))
+              event.signal.addEventListener('abort', () => reject(new Error))
             })
 
-            image.style.transform = ''
-            image.style.transition = ''
+            targetImage.style.transform = ''
+            targetImage.style.transition = ''
 
             await Promise.race([p, abort])
             //console.info('transition complete')
-            //console.log('image.hidden?:', image.hidden)
+            //console.log('targetImage.hidden?:', targetImage.hidden)
           }
         })
       }
 
     } else {
-      image.hidden = true
-      //console.log('image.hidden?:', image.hidden)
+      targetImage.hidden = true
+      //console.log('targetImage.hidden?:', targetImage.hidden)
     }
   })
 
@@ -87,5 +92,5 @@ if (window.navigation) {
   window.addEventListener('popstate', () => setupInitialPage())
 }
 
-left.onclick = buildLoadHandler('left')
-right.onclick = buildLoadHandler('right')
+btnLeft.onclick = buildLoadHandler('left')
+btnRight.onclick = buildLoadHandler('right')
