@@ -23,15 +23,15 @@ if (window.navigation) {
 
   window.navigation.addEventListener('navigate', (event) => {
 
-    const u = new URL(event.destination.url)
+    const targetUrl = new URL(event.destination.url)
     //console.info('info---------(event)',event)
-    // console.info('u.hash?',u.hash)
+    // console.info('targetUrl.hash?',targetUrl.hash)
 
-    if (!event.canTransition || u.pathname !== '/') {
+    if (!event.canTransition || targetUrl.pathname !== '/') {
       return
     }
 
-    if (u.hash === '#js-imageDemo') {
+    if (targetUrl.hash === '#js-imageDemo') {
       // We can handle this one. If 'info' is unspecified, it might be because
       // this is a URL navigation, or Back and Forward was pressed.
       // console.info('got side request', event.info?.side)
@@ -45,7 +45,6 @@ if (window.navigation) {
           scroll: 'manual',
           async handler() {
 
-
             const transformDirection = (event.info.side === 'left' ? -1 : +1)
 
             targetImage.style.transition = 'none'
@@ -57,6 +56,7 @@ if (window.navigation) {
             const p = new Promise((r) => {
               targetImage.addEventListener('transitionend', () => r(true))
             })
+
             const abort = new Promise((_, reject) => {
               event.signal.addEventListener('abort', () => reject(new Error))
             })
@@ -84,11 +84,16 @@ if (window.navigation) {
 
   buildLoadHandler = (side) => {
     return () => {
+      // pushState(state, unused, url)
+      // state
+      // The state object is a JavaScript object which is associated with the new history entry created by pushState().
+      // Whenever the user navigates to the new state, a popstate event is fired, and the state property of the event contains a copy of the history entry's state object.
       window.history.pushState(null, '', '#js-imageDemo')
       setupInitialPage()
     }
   }
-
+  // Whenever the user navigates to the new state, a popstate event is fired,
+  // and the state property of the event contains a copy of the history entry's state object.
   window.addEventListener('popstate', () => setupInitialPage())
 }
 
