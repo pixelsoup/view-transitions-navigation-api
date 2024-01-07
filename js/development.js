@@ -12,9 +12,11 @@ setupInitialPage()
 
 let buildLoadHandler
 
+console.log('window.navigation?', window.navigation)
+
 if (window.navigation) {
   buildLoadHandler = (side) => {
-    return (event) => {
+    return () => {
       window.navigation.navigate('#js-imageDemo', { info: { side }})
     }
   }
@@ -23,6 +25,7 @@ if (window.navigation) {
 
     const u = new URL(e.destination.url)
     //console.info('info---------(e)',e)
+    // console.info('u.hash?',u.hash)
 
     if (!e.canTransition || u.pathname !== '/') {
       return
@@ -31,8 +34,8 @@ if (window.navigation) {
     if (u.hash === '#js-imageDemo') {
       // We can handle this one. If 'info' is unspecified, it might be because
       // this is a URL navigation, or Back and Forward was pressed.
-      console.info('got side request', e.info?.side)
-      console.info('e.info', e.info)
+      // console.info('got side request', e.info?.side)
+      // console.info('e.info', e.info)
 
       image.hidden = false
 
@@ -75,7 +78,7 @@ if (window.navigation) {
 
 
   buildLoadHandler = (side) => {
-    return (event) => {
+    return () => {
       window.history.pushState(null, '', '#js-imageDemo')
       setupInitialPage()
     }
