@@ -3,8 +3,23 @@ const btnLeft = document.getElementById('js-navBtnLeft')
 const btnRight = document.getElementById('js-navBtnRight')
 const targetImage = document.getElementById('js-imageDemo')
 
+// https://developer.mozilla.org/en-US/docs/Web/API/Location
+const documentLocation = document.location
+// only on page load (not on event listeners)
+console.log('documentLocation.host', documentLocation.host) // localhost:5757
+console.log('documentLocation.hostname', documentLocation.hostname) // localhost
+console.log('documentLocation.port', documentLocation.port) // 5757
+console.log('documentLocation.pathname', documentLocation.pathname) // /
+console.log('documentLocation.search', documentLocation.search) // e.g ?model=honda
+console.log('documentLocation.hash', documentLocation.hash) // e.g. #js-imageDemo
+console.log('documentLocation.toString()', documentLocation.toString()) // http://localhost:5757/
+
+
 function setupInitialPage() {
+
   const showImage = (window.location.hash === '#js-imageDemo')
+  // if window.location.hash is not #js-imageDemo then
+  // add hidden attribute (styled with css with low opacity)
   targetImage.hidden = !showImage
 }
 
@@ -12,8 +27,9 @@ setupInitialPage()
 
 let buildLoadHandler
 
-console.log('window.navigation?', window.navigation)
+// console.log('window.navigation?', window.navigation)
 
+// window.navigation currently supported by Chrome and Edge
 if (window.navigation) {
   buildLoadHandler = (side) => {
     return () => {
@@ -78,7 +94,9 @@ if (window.navigation) {
   })
 
 } else {
-  const hint = document.getElementById('hint')
+  const hint = document.getElementById('js-fallbackMessage')
+  // if window.navigation is not supported remove hidden attribute from fallback message
+  // The Navigation API is not available :(
   hint.hidden = false
 
 
