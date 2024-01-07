@@ -4,15 +4,17 @@ const btnRight = document.getElementById('js-navBtnRight')
 const targetImage = document.getElementById('js-imageDemo')
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Location
-const documentLocation = document.location
-// only on page load (not on event listeners)
-console.log('documentLocation.host', documentLocation.host) // localhost:5757
-console.log('documentLocation.hostname', documentLocation.hostname) // localhost
-console.log('documentLocation.port', documentLocation.port) // 5757
-console.log('documentLocation.pathname', documentLocation.pathname) // /
-console.log('documentLocation.search', documentLocation.search) // e.g ?model=honda
-console.log('documentLocation.hash', documentLocation.hash) // e.g. #js-imageDemo
-console.log('documentLocation.toString()', documentLocation.toString()) // http://localhost:5757/
+
+// const documentLocation = document.location
+
+// only applies to page load (not on event listeners)
+// console.log('documentLocation.host', documentLocation.host) // localhost:5757
+// console.log('documentLocation.hostname', documentLocation.hostname) // localhost
+// console.log('documentLocation.port', documentLocation.port) // 5757
+// console.log('documentLocation.pathname', documentLocation.pathname) // /
+// console.log('documentLocation.search', documentLocation.search) // e.g ?model=honda
+// console.log('documentLocation.hash', documentLocation.hash) // e.g. #js-imageDemo
+// console.log('documentLocation.toString()', documentLocation.toString()) // http://localhost:5757/
 
 
 function setupInitialPage() {
@@ -40,18 +42,19 @@ if (window.navigation) {
   window.navigation.addEventListener('navigate', (event) => {
 
     const targetUrl = new URL(event.destination.url)
-    //console.info('info---------(event)',event)
-    // console.info('targetUrl.hash?',targetUrl.hash)
+    // console.info('info---------(event)',event) // clickEvent object
+    // console.info('targetUrl.hash?',targetUrl.hash) // #js-imageDemo
 
     if (!event.canTransition || targetUrl.pathname !== '/') {
       return
     }
 
+    // console.info('got side request', event.info?.side)
+    // console.info('event.info', event.info)
+
     if (targetUrl.hash === '#js-imageDemo') {
       // We can handle this one. If 'info' is unspecified, it might be because
       // this is a URL navigation, or Back and Forward was pressed.
-      // console.info('got side request', event.info?.side)
-      // console.info('event.info', event.info)
 
       targetImage.hidden = false
 
@@ -117,3 +120,21 @@ if (window.navigation) {
 
 btnLeft.onclick = buildLoadHandler('left')
 btnRight.onclick = buildLoadHandler('right')
+
+
+
+targetImage.addEventListener("transitionrun", () => {
+  console.log("transitionrun fired")
+})
+
+targetImage.addEventListener("transitionstart", () => {
+  console.log("transitionstart fired")
+})
+
+targetImage.addEventListener("transitioncancel", () => {
+  console.log("transitioncancel fired")
+})
+
+targetImage.addEventListener("transitionend", () => {
+  console.log("transitionend fired")
+})
